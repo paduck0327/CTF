@@ -23,20 +23,13 @@ def decrypt_aes(data, key):
 def xor(data, key):
 	return bytearray([b ^ key[i % len(key)] for i, b in enumerate(data)])
 
-path = "D:\\CTF\\WWF\\odin"
-fname = os.listdir(path)
-for file in fname:
-	try:
-		f = open("odin\\" + file, "rb")
-		data = f.read()
-		enc = data
-		dec = decrypt_aes(enc, key_xori)
-		xor_dec = bytes(xor(dec, key_fernet[0]))
-		for key in key_fernet[::-1]:
-			fernet = Fernet(key)
-			xor_dec = fernet.decrypt(xor_dec)
-		file = file.replace(".odin", "")
-		f2 = open("odin\\" + file, "wb")
-		f2.write(xor_dec)
-	except:
-		print(file)
+f = open("wukong.png.odin", "rb")
+data = f.read()
+enc = data
+dec = decrypt_aes(enc, key_xori)
+xor_dec = bytes(xor(dec, key_fernet[0]))
+for key in key_fernet[::-1]:
+	fernet = Fernet(key)
+	xor_dec = fernet.decrypt(xor_dec)
+f2 = open("wukong.png", "wb")
+f2.write(xor_dec)
